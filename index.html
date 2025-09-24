@@ -28,7 +28,7 @@
   <div id="results"></div>
 
   <script>
-    const CSV_FILE = 'LISTADOS_delegada/oS_2025-2026.csv';
+    const CSV_FILE = 'LISTADOS_DELEGADOS_2025-2026.csv';
     const COL = {
       grado: 'GRADO / GRADUA',
       curso: 'IKASTURTEA / CURSO',
@@ -58,9 +58,9 @@
 
     function initFilters(){
       const grados = uniqueSorted(DATA.map(r => r[COL.grado]));
-      gradoSel.innerHTML = '<option value="">— Selecciona —</option>' + grados.map(g => `<option>${g}</option>`).join('');
+      gradoSel.innerHTML = '<option value="">— Aukeratu/Selecciona —</option>' + grados.map(g => `<option>${g}</option>`).join('');
       const cursos = uniqueSorted(DATA.map(r => r[COL.curso]));
-      cursoSel.innerHTML = '<option value="">— Selecciona —</option>' + cursos.map(c => `<option>${c}</option>`).join('');
+      cursoSel.innerHTML = '<option value="">— Aukeratu/Selecciona —</option>' + cursos.map(c => `<option>${c}</option>`).join('');
       gradoSel.addEventListener('change', render);
       cursoSel.addEventListener('change', render);
     }
