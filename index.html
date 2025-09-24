@@ -17,7 +17,7 @@
 </head>
 <body>
   <h1>Irakasgaiaren kontsulta ordezkaria aukeratzeko / Consulta de asignatura para elección de delegado</h1>
-  <p>Hautatu zure <strong>gradua</strong> eta matrikulatuta zauden <strong>ikasturterik</strong> altuena / Selecciona tu <strong>grado</strong> y el <strong>curso</strong> más alto en el que estés matriculado.</p>
+  <p>Hautatu zure <strong>gradua</strong> eta matrikulatuta zauden <strong>ikasturterik</strong> altuena / Aukeratu/Selecciona tu <strong>grado</strong> y el <strong>curso</strong> más alto en el que estés matriculado.</p>
 
   <label for="gradoSel">Grado / Gradua:</label>
   <select id="gradoSel"></select>
@@ -58,9 +58,9 @@
 
     function initFilters(){
       const grados = uniqueSorted(DATA.map(r => r[COL.grado]));
-      gradoSel.innerHTML = '<option value="">— Selecciona —</option>' + grados.map(g => `<option>${g}</option>`).join('');
+      gradoSel.innerHTML = '<option value="">— Aukeratu/Selecciona —</option>' + grados.map(g => `<option>${g}</option>`).join('');
       const cursos = uniqueSorted(DATA.map(r => r[COL.curso]));
-      cursoSel.innerHTML = '<option value="">— Selecciona —</option>' + cursos.map(c => `<option>${c}</option>`).join('');
+      cursoSel.innerHTML = '<option value="">— Aukeratu/Selecciona —</option>' + cursos.map(c => `<option>${c}</option>`).join('');
       gradoSel.addEventListener('change', render);
       cursoSel.addEventListener('change', render);
     }
