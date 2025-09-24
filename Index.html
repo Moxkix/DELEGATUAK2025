@@ -3,100 +3,35 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Elección de delegado · Bilatzailea / Buscador</title>
-  <link rel="preconnect" href="https://unpkg.com" />
+  <title>Elección de delegado</title>
   <script src="https://unpkg.com/papaparse@5.4.1/papaparse.min.js"></script>
   <style>
-    :root {
-      --bg: #0b1020;          /* oscuro elegante */
-      --card: #141b34;
-      --text: #e6e9ef;
-      --muted: #9aa3b2;
-      --accent: #6aa6ff;
-      --ring: #94b7ff44;
-      --ok: #2ecc71;
-    }
-    * { box-sizing: border-box; }
-    html, body { height: 100%; }
-    body {
-      margin: 0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
-      color: var(--text); background: radial-gradient(1200px 800px at 10% 0%, #121a33, #090e1b 60%);
-      display: grid; place-items: start center; padding: 24px;
-    }
-    .container { width: min(1100px, 100%); }
-    .card {
-      background: linear-gradient(180deg, var(--card), #0f1630 120%);
-      border: 1px solid #1c2548; border-radius: 20px; padding: 20px; box-shadow: 0 6px 30px #0006;
-    }
-    h1 { font-size: clamp(20px, 3vw, 28px); margin: 0 0 6px; letter-spacing: .2px; }
-    .sub { color: var(--muted); margin: 0 0 16px; font-size: 14px; }
-
-    .grid { display: grid; gap: 12px; grid-template-columns: 1fr; }
-    @media (min-width: 720px){ .grid { grid-template-columns: 1fr 1fr 1fr; } }
-
-    label { font-size: 12px; color: var(--muted); display: block; margin-bottom: 6px; }
-    select, button, input[type="text"] {
-      width: 100%; padding: 10px 12px; border-radius: 12px; border: 1px solid #263058; background: #0e1530; color: var(--text);
-      outline: none; transition: border-color .15s, box-shadow .15s;
-    }
-    select:focus, button:focus, input:focus { border-color: var(--accent); box-shadow: 0 0 0 6px var(--ring); }
-    button {
-      cursor: pointer; font-weight: 600; background: linear-gradient(180deg, #1c264a, #13204b 120%); border: 1px solid #263058;
-    }
-    .results { margin-top: 16px; }
-    table { width: 100%; border-collapse: collapse; overflow: hidden; border-radius: 14px; border: 1px solid #263058; }
-    th, td { padding: 10px 12px; text-align: left; }
-    th { background: #101738; color: #cbd5e1; font-size: 12px; letter-spacing: .3px; text-transform: uppercase; }
-    tr:nth-child(odd) td { background: #0d1430; }
-    tr:nth-child(even) td { background: #0a122b; }
-    caption { text-align: left; padding: 8px 4px; color: var(--muted); }
-    .pill { display:inline-flex; gap:6px; align-items:center; padding:4px 8px; border-radius: 999px; background:#0a1a3b; border:1px solid #223165; font-size:12px; color:#cfe1ff; }
-    .footer { color: var(--muted); font-size: 12px; margin-top: 12px; }
-    .ok { color: var(--ok); font-weight: 600; }
-    .err { color: #ff7b7b; font-weight: 600; }
+    body { font-family: sans-serif; margin: 2rem; background: #f6f8fa; }
+    h1 { font-size: 1.5rem; }
+    label { display:block; margin-top:1rem; }
+    select { padding: .3rem; margin-top:.3rem; }
+    table { margin-top: 1.5rem; border-collapse: collapse; width:100%; }
+    th, td { border: 1px solid #ccc; padding: .5rem; text-align:left; }
+    th { background:#eee; }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="card">
-      <h1>Elección de delegado · Kontsulta</h1>
-      <p class="sub">Elige tu <strong>grado / gradua</strong> y el <strong>curso más alto</strong> en el que estás matriculado. / <em>Aukeratu zure gradua eta matrikulatuta zauden <strong>maila altuena</strong>.</em></p>
+  <h1>Consulta de asignatura para elección de delegado</h1>
+  <p>Selecciona tu <strong>grado</strong> y el <strong>curso</strong> más alto en el que estés matriculado.</p>
 
-      <div class="grid" role="region" aria-label="Filtros">
-        <div>
-          <label for="gradoSel">GRADO / GRADUA</label>
-          <select id="gradoSel" aria-label="Selecciona tu grado"></select>
-        </div>
-        <div>
-          <label for="cursoSel">CURSO / IKASTURTEA (max.)</label>
-          <select id="cursoSel" aria-label="Selecciona tu curso"></select>
-        </div>
-        <div>
-          <label for="langSel">Mostrar por lengua / Hizkuntza</label>
-          <select id="langSel" aria-label="Selecciona lengua">
-            <option value="todas">Todas / Guztiak</option>
-            <option value="CASTELLANO">Castellano</option>
-            <option value="EUSKERA">Euskera</option>
-            <option value="INGELESA">Ingelesa / Inglés</option>
-          </select>
-        </div>
-      </div>
+  <label for="gradoSel">Grado / Gradua:</label>
+  <select id="gradoSel"></select>
 
-      <div class="results" id="results"></div>
+  <label for="cursoSel">Curso / Ikasturtea:</label>
+  <select id="cursoSel"></select>
 
-      <p class="footer">Datos fuente: <span class="pill"><span>CSV</span><code id="csvName">LISTADOS_DELEGADOS_2025-2026.csv</code></span> · Delimitador <code>;</code>. Si el archivo cambia de nombre, actualiza la constante <code>CSV_FILE</code>.
-      </p>
-    </div>
-  </div>
+  <div id="results"></div>
 
   <script>
-    // === CONFIG ===
-    const CSV_FILE = 'LISTADOS_DELEGADOS_2025-2026.csv'; // Pon el CSV en la misma carpeta que este HTML
-
-    // Columnas esperadas (cabeceras tal y como están en el CSV)
+    const CSV_FILE = 'LISTADOS_DELEGADOS_2025-2026.csv';
     const COL = {
       grado: 'GRADO',
-      gradua: 'GRADUA', // en el CSV aparece como GRADUA (sin espacios al trim)
+      gradua: 'GRADUA',
       curso: 'IKASTURTEA / CURSO',
       lengua: 'HIZKUNTZA/LENGUA',
       asignatura: 'IRAKASGAIA / ASIGNATURA'
@@ -104,105 +39,47 @@
 
     const gradoSel = document.getElementById('gradoSel');
     const cursoSel = document.getElementById('cursoSel');
-    const langSel  = document.getElementById('langSel');
     const results  = document.getElementById('results');
-    const csvName  = document.getElementById('csvName');
-
     let DATA = [];
 
-    // Utilidad: normaliza espacios
-    const trim = v => typeof v === 'string' ? v.trim() : v;
-
-    // Carga CSV con PapaParse (soporta ; y detecta tipos sin romper tildes)
-    function loadCSV() {
-      csvName.textContent = CSV_FILE;
+    function loadCSV(){
       Papa.parse(CSV_FILE, {
         download: true,
         header: true,
         delimiter: ';',
-        encoding: 'ISO-8859-1', // latin1
+        encoding: 'ISO-8859-1',
         complete: (res) => {
-          // Limpieza básica y tipado
-          DATA = res.data
-            .filter(row => Object.values(row).some(v => (v||'').toString().trim() !== ''))
-            .map(row => Object.fromEntries(Object.entries(row).map(([k,v]) => [trim(k), trim(v)])));
+          DATA = res.data.filter(r => r[COL.grado]);
           initFilters();
-          render();
-        },
-        error: (err) => {
-          results.innerHTML = `<p class="err">No se pudo cargar el CSV: ${err?.message || err}</p>`;
         }
       });
     }
 
-    function uniqueSorted(arr) { return [...new Set(arr)].filter(Boolean).sort((a,b)=>a.localeCompare(b)); }
+    function uniqueSorted(arr){ return [...new Set(arr)].filter(Boolean).sort(); }
 
     function initFilters(){
       const grados = uniqueSorted(DATA.map(r => r[COL.grado]));
-      gradoSel.innerHTML = `<option value="">— Selecciona —</option>` + grados.map(g => `<option>${g}</option>`).join('');
-
+      gradoSel.innerHTML = '<option value="">— Selecciona —</option>' + grados.map(g => `<option>${g}</option>`).join('');
       const cursos = uniqueSorted(DATA.map(r => r[COL.curso]));
-      cursoSel.innerHTML = `<option value="">— Selecciona —</option>` + cursos.map(c => `<option>${c}</option>`).join('');
-
+      cursoSel.innerHTML = '<option value="">— Selecciona —</option>' + cursos.map(c => `<option>${c}</option>`).join('');
       gradoSel.addEventListener('change', render);
       cursoSel.addEventListener('change', render);
-      langSel.addEventListener('change', render);
     }
 
     function render(){
       const grado = gradoSel.value;
       const curso = cursoSel.value;
-      const lengua = langSel.value;
-
-      if(!grado || !curso){
-        results.innerHTML = `<p class="sub">Selecciona grado y curso para ver el resultado.</p>`;
-        return;
-      }
-
-      const rows = DATA.filter(r => r[COL.grado] === grado && r[COL.curso] === curso);
-
-      if(rows.length === 0){
-        results.innerHTML = `<p class="err">Sin coincidencias para <strong>${grado}</strong>, curso <strong>${curso}</strong>.</p>`;
-        return;
-      }
-
-      const filtered = rows.filter(r => lengua === 'todas' ? true : (r[COL.lengua] || '').toUpperCase() === lengua.toUpperCase());
-
-      const table = document.createElement('table');
-      table.innerHTML = `
-        <caption>
-          <span class="pill">${grado}</span>
-          <span class="pill">Curso/Ikasturtea: ${curso}</span>
-          ${lengua !== 'todas' ? `<span class="pill">${lengua}</span>` : ''}
-        </caption>
-        <thead>
-          <tr>
-            <th>Lengua / Hizkuntza</th>
-            <th>Asignatura / Irakasgaia</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${filtered.map(r => `
-            <tr>
-              <td>${r[COL.lengua] || ''}</td>
-              <td>${r[COL.asignatura] || ''}</td>
-            </tr>
-          `).join('')}
-        </tbody>`;
-
-      results.innerHTML = '';
-      results.appendChild(table);
-
-      // Mensaje de ayuda si hay varias filas
-      if(filtered.length > 1){
-        const p = document.createElement('p');
-        p.className = 'sub';
-        p.innerHTML = 'Si aparecen varias filas, son las distintas lenguas de docencia.';
-        results.appendChild(p);
-      }
+      if(!grado || !curso){ results.innerHTML = ''; return; }
+      const rows = DATA.filter(r => r[COL.grado]===grado && r[COL.curso]===curso);
+      if(rows.length===0){ results.innerHTML='<p>No hay coincidencias.</p>'; return; }
+      let html = '<table><thead><tr><th>Lengua</th><th>Asignatura</th></tr></thead><tbody>';
+      rows.forEach(r => {
+        html += `<tr><td>${r[COL.lengua]}</td><td>${r[COL.asignatura]}</td></tr>`;
+      });
+      html += '</tbody></table>';
+      results.innerHTML = html;
     }
 
-    // Arranque
     loadCSV();
   </script>
 </body>
