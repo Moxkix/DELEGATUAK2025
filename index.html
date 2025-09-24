@@ -47,7 +47,7 @@
         download: true,
         header: true,
         delimiter: ';',
-        encoding: 'ISO-8859-1',
+        encoding: 'UTF-8',
         complete: (res) => {
           DATA = res.data.filter(r => r[COL.grado]);
           initFilters();
