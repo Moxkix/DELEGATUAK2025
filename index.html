@@ -32,6 +32,7 @@
     const COL = {
       grado: 'GRADO / GRADUA',
       curso: 'IKASTURTEA / CURSO',
+      grupo: 'GRUPO',
       lengua: 'HIZKUNTZA / LENGUA',
       asignatura: 'IRAKASGAIA / ASIGNATURA'
     };
@@ -71,9 +72,9 @@
       if(!grado || !curso){ results.innerHTML = ''; return; }
       const rows = DATA.filter(r => r[COL.grado]===grado && r[COL.curso]===curso);
       if(rows.length===0){ results.innerHTML='<p>No hay coincidencias.</p>'; return; }
-      let html = '<table><thead><tr><th>Hizkuntza / Lengua</th><th>Irakasgaia / Asignatura</th></tr></thead><tbody>';
+      let html = '<table><thead><tr><th>Taldea / Grupo</th><th>Hizkuntza / Lengua</th><th>Irakasgaia / Asignatura</th></tr></thead><tbody>';
       rows.forEach(r => {
-        html += `<tr><td>${r[COL.lengua]}</td><td>${r[COL.asignatura]}</td></tr>`;
+        html += `<tr><td>${r[COL.grupo]}</td><td>${r[COL.lengua]}</td><td>${r[COL.asignatura]}</td></tr>`;
       });
       html += '</tbody></table>';
       results.innerHTML = html;
