@@ -1,0 +1,31 @@
+ (cd "$(git rev-parse --show-toplevel)" && git apply --3way <<'EOF' 
+diff --git a//dev/null b/logo-upv-ehu.svg
+index 0000000000000000000000000000000000000000..d1769e8dccadec81a8955969f466c4273a61cfaf 100644
+--- a//dev/null
++++ b/logo-upv-ehu.svg
+@@ -0,0 +1,22 @@
++<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 260" role="img" aria-labelledby="title desc">
++  <title id="title">Logo de la Universidad del País Vasco / Euskal Herriko Unibertsitatea</title>
++  <desc id="desc">Versión vectorial simplificada con el emblema superior, lema y los nombres de la universidad en euskera y castellano junto a la Facultad de Letras.</desc>
++  <style>
++    text { font-family: 'Helvetica Neue', Arial, sans-serif; fill: #111; }
++    .motto { font-size: 22px; letter-spacing: 1px; }
++    .name { font-size: 28px; font-weight: 600; }
++    .faculty-label { font-size: 24px; font-weight: 500; text-transform: uppercase; }
++    .faculty-label.small { font-size: 22px; text-transform: none; font-weight: 400; }
++  </style>
++  <g fill="#111">
++    <path d="M256 86c-10 0-16 6-16 16v25h-22c-10 0-16 6-16 16v28c0 10 6 16 16 16h38c10 0 16-6 16-16v-25h24c10 0 16-6 16-16V96c0-10-6-16-16-16h-40zm-140-6c-10 0-16 6-16 16v36h-20c-10 0-16 6-16 16v28c0 10 6 16 16 16h36c10 0 16-6 16-16v-36h22c10 0 16-6 16-16V96c0-10-6-16-16-16h-38zm216-4c-10 0-16 6-16 16v36h-22c-10 0-16 6-16 16v30c0 10 6 16 16 16h38c10 0 16-6 16-16v-36h24c10 0 16-6 16-16V96c0-10-6-16-16-16H332z"/>
++  </g>
++  <text class="motto" x="170" y="64">eman ta zabal zazu</text>
++  <text class="name" x="60" y="198">Universidad del País Vasco</text>
++  <text class="name" x="70" y="232">Euskal Herriko Unibertsitatea</text>
++  <line x1="540" y1="40" x2="540" y2="240" stroke="#111" stroke-width="2"/>
++  <text class="faculty-label" x="570" y="120">LETREN</text>
++  <text class="faculty-label" x="570" y="162">FAKULTATEA</text>
++  <text class="faculty-label small" x="570" y="208">FACULTAD</text>
++  <text class="faculty-label small" x="570" y="238">DE LETRAS</text>
++</svg>
+ 
+EOF
+)
