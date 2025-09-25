@@ -1,85 +1,88 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Elección de delegada/o</title>
-  <script src="https://unpkg.com/papaparse@5.4.1/papaparse.min.js"></script>
-  <style>
-    body { font-family: sans-serif; margin: 2rem; background: #f6f8fa; }
-    h1 { font-size: 1.5rem; }
-    label { display:block; margin-top:1rem; }
-    select { padding: .3rem; margin-top:.3rem; }
-    table { margin-top: 1.5rem; border-collapse: collapse; width:100%; }
-    th, td { border: 1px solid #ccc; padding: .5rem; text-align:left; }
-    th { background:#eee; }
-  </style>
-</head>
-<body>
-  <h1>Irakasgaiaren kontsulta ordezkaria aukeratzeko / Consulta de asignatura para elección de delegada/o</h1>
-  <p>Hautatu zure <strong>gradua</strong> eta matrikulatuta zauden <strong>ikasturterik</strong> altuena / Selecciona tu <strong>grado</strong> y el <strong>curso</strong> más alto en el que estés matriculado.</p>
-
-  <label for="gradoSel">Grado / Gradua:</label>
-  <select id="gradoSel"></select>
-
-  <label for="cursoSel">Curso / Ikasturtea:</label>
-  <select id="cursoSel"></select>
-
-  <div id="results"></div>
-
-  <script>
-    const CSV_FILE = 'LISTADOS_DELEGADOS_2025-2026.csv';
-    const COL = {
-      grado: 'GRADO / GRADUA',
-      curso: 'IKASTURTEA / CURSO',
-      lengua: 'HIZKUNTZA / LENGUA',
-      asignatura: 'IRAKASGAIA / ASIGNATURA'
-    };
-
-    const gradoSel = document.getElementById('gradoSel');
-    const cursoSel = document.getElementById('cursoSel');
-    const results  = document.getElementById('results');
-    let DATA = [];
-
-    function loadCSV(){
-      Papa.parse(CSV_FILE, {
-        download: true,
-        header: true,
-        delimiter: ';',
-        encoding: 'UTF-8',
-        complete: (res) => {
-          DATA = res.data.filter(r => r[COL.grado]);
-          initFilters();
-        }
-      });
-    }
-
-    function uniqueSorted(arr){ return [...new Set(arr)].filter(Boolean).sort(); }
-
-    function initFilters(){
-      const grados = uniqueSorted(DATA.map(r => r[COL.grado]));
-      gradoSel.innerHTML = '<option value="">— Aukeratu/Selecciona —</option>' + grados.map(g => `<option>${g}</option>`).join('');
-      const cursos = uniqueSorted(DATA.map(r => r[COL.curso]));
-      cursoSel.innerHTML = '<option value="">— Aukeratu/Selecciona —</option>' + cursos.map(c => `<option>${c}</option>`).join('');
-      gradoSel.addEventListener('change', render);
-      cursoSel.addEventListener('change', render);
-    }
-
-    function render(){
-      const grado = gradoSel.value;
-      const curso = cursoSel.value;
-      if(!grado || !curso){ results.innerHTML = ''; return; }
-      const rows = DATA.filter(r => r[COL.grado]===grado && r[COL.curso]===curso);
-      if(rows.length===0){ results.innerHTML='<p>No hay coincidencias.</p>'; return; }
-      let html = '<table><thead><tr><th>Hizkuntza / Lengua</th><th>Irakasgaia / Asignatura</th></tr></thead><tbody>';
-      rows.forEach(r => {
-        html += `<tr><td>${r[COL.lengua]}</td><td>${r[COL.asignatura]}</td></tr>`;
-      });
-      html += '</tbody></table>';
-      results.innerHTML = html;
-    }
-
-    loadCSV();
-  </script>
-</body>
-</html>
+ (cd "$(git rev-parse --show-toplevel)" && git apply --3way <<'EOF' 
+diff --git a/index.html b/index.html
+index 2360f98803e10e39def3f59bb18b144d54717b7b..16a2a4d3f431ada02f84d9d24fdb91e3e3d2324b 100644
+--- a/index.html
++++ b/index.html
+@@ -10,76 +10,77 @@
+     h1 { font-size: 1.5rem; }
+     label { display:block; margin-top:1rem; }
+     select { padding: .3rem; margin-top:.3rem; }
+     table { margin-top: 1.5rem; border-collapse: collapse; width:100%; }
+     th, td { border: 1px solid #ccc; padding: .5rem; text-align:left; }
+     th { background:#eee; }
+   </style>
+ </head>
+ <body>
+   <h1>Irakasgaiaren kontsulta ordezkaria aukeratzeko / Consulta de asignatura para elección de delegada/o</h1>
+   <p>Hautatu zure <strong>gradua</strong> eta matrikulatuta zauden <strong>ikasturterik</strong> altuena / Selecciona tu <strong>grado</strong> y el <strong>curso</strong> más alto en el que estés matriculado.</p>
+ 
+   <label for="gradoSel">Grado / Gradua:</label>
+   <select id="gradoSel"></select>
+ 
+   <label for="cursoSel">Curso / Ikasturtea:</label>
+   <select id="cursoSel"></select>
+ 
+   <div id="results"></div>
+ 
+   <script>
+     const CSV_FILE = 'LISTADOS_DELEGADOS_2025-2026.csv';
+     const COL = {
+       grado: 'GRADO / GRADUA',
+       curso: 'IKASTURTEA / CURSO',
++      grupo: 'GRUPO',
+       lengua: 'HIZKUNTZA / LENGUA',
+       asignatura: 'IRAKASGAIA / ASIGNATURA'
+     };
+ 
+     const gradoSel = document.getElementById('gradoSel');
+     const cursoSel = document.getElementById('cursoSel');
+     const results  = document.getElementById('results');
+     let DATA = [];
+ 
+     function loadCSV(){
+       Papa.parse(CSV_FILE, {
+         download: true,
+         header: true,
+         delimiter: ';',
+         encoding: 'UTF-8',
+         complete: (res) => {
+           DATA = res.data.filter(r => r[COL.grado]);
+           initFilters();
+         }
+       });
+     }
+ 
+     function uniqueSorted(arr){ return [...new Set(arr)].filter(Boolean).sort(); }
+ 
+     function initFilters(){
+       const grados = uniqueSorted(DATA.map(r => r[COL.grado]));
+       gradoSel.innerHTML = '<option value="">— Aukeratu/Selecciona —</option>' + grados.map(g => `<option>${g}</option>`).join('');
+       const cursos = uniqueSorted(DATA.map(r => r[COL.curso]));
+       cursoSel.innerHTML = '<option value="">— Aukeratu/Selecciona —</option>' + cursos.map(c => `<option>${c}</option>`).join('');
+       gradoSel.addEventListener('change', render);
+       cursoSel.addEventListener('change', render);
+     }
+ 
+     function render(){
+       const grado = gradoSel.value;
+       const curso = cursoSel.value;
+       if(!grado || !curso){ results.innerHTML = ''; return; }
+       const rows = DATA.filter(r => r[COL.grado]===grado && r[COL.curso]===curso);
+       if(rows.length===0){ results.innerHTML='<p>No hay coincidencias.</p>'; return; }
+-      let html = '<table><thead><tr><th>Hizkuntza / Lengua</th><th>Irakasgaia / Asignatura</th></tr></thead><tbody>';
++      let html = '<table><thead><tr><th>Taldea / Grupo</th><th>Hizkuntza / Lengua</th><th>Irakasgaia / Asignatura</th></tr></thead><tbody>';
+       rows.forEach(r => {
+-        html += `<tr><td>${r[COL.lengua]}</td><td>${r[COL.asignatura]}</td></tr>`;
++        html += `<tr><td>${r[COL.grupo]}</td><td>${r[COL.lengua]}</td><td>${r[COL.asignatura]}</td></tr>`;
+       });
+       html += '</tbody></table>';
+       results.innerHTML = html;
+     }
+ 
+     loadCSV();
+   </script>
+ </body>
+ </html>
+ 
+EOF
+)
